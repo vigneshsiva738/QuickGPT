@@ -41,7 +41,6 @@ export function AppContextProvider ({ children }) {
   useEffect(()=>{
     fetchUser()
   },[])
-  console.log(user)
 
   const value = {navigate, user, setUser, chats, setChats, selectedChat, setSelectedChat, theme, setTheme};
 
