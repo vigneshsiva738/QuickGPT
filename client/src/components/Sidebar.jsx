@@ -10,7 +10,7 @@ function Sidebar({isMenuOpen, setIsMenuOpen}) {
   
   
   return (
-    <div className={`flex flex-col h-screen min-w-72 p-5 dark:bg-gradient-to-b from-[#242124]/30 to-[#000000]/30 border-r border-[#80609F]/30 backdrop-blur-3xl transition-all duration-500 max-mid:absolut left-0 z-1 ${!isMenuOpen && "max-md:-translate-x-full"}`}>
+    <div className={`flex flex-col h-screen w-72 p-5 dark:bg-gradient-to-b from-[#242124]/30 to-[#000000]/30 border-r border-[#80609F]/30 backdrop-blur-3xl transition-all duration-500 max-mid:absolute left-0 z-1 ${!isMenuOpen && "max-md:-translate-x-full"}`}>
 
       {/* Logo */}
       <img src={theme==='dark'?assets.logo_full : assets.logo_full_dark} alt="QuickGPT" className="w-full max-w-48" />
@@ -28,7 +28,7 @@ function Sidebar({isMenuOpen, setIsMenuOpen}) {
       </div>
 
       {/* Recent Chats */}
-      {chats.length>0 && <p className="mt-4 texxt-sm" >Recent Chats</p>}
+      {chats.length>0 && <p className="mt-4 text-sm" >Recent Chats</p>}
       <div className="flex-1 overflow-y-scroll mt-3 text-sm space-y-3" >
         {
           chats.filter((chat)=> chat.messages[0] ? chat.messages[0]?.content.toLowerCase().trim().includes(search.toLowerCase().trim()) : chat.name.toLowerCase().trim().includes(search.toLowerCase().trim())).map((chat)=>(
