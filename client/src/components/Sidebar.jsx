@@ -5,8 +5,14 @@ import moment from "moment";
 
 function Sidebar({isMenuOpen, setIsMenuOpen}) {
 
-  const {chats, selectedChats, theme, setTheme, user, navigate} = useAppContext()
+  const {chats, setSelectedChat, theme, setTheme, user, navigate} = useAppContext()
   const [search, setSearch] = useState('')
+
+  const handleSelectedChat = (chat) => {
+    navigate("/"); 
+    setSelectedChat(chat)
+    setIsMenuOpen(false)
+  }
   
   
   return (
@@ -32,7 +38,7 @@ function Sidebar({isMenuOpen, setIsMenuOpen}) {
       <div className="flex-1 overflow-y-scroll mt-3 text-sm space-y-3" >
         {
           chats.filter((chat)=> chat.messages[0] ? chat.messages[0]?.content.toLowerCase().trim().includes(search.toLowerCase().trim()) : chat.name.toLowerCase().trim().includes(search.toLowerCase().trim())).map((chat)=>(
-            <div key={chat._id} className="p-2 px-4 dark:bg-[#57317C]/10 border border-gray-300 dark:border-[#80609F]/15 rounded-md cursor-pointer flex justify-between group">
+            <div key={chat._id} className="p-2 px-4 dark:bg-[#57317C]/10 border border-gray-300 dark:border-[#80609F]/15 rounded-md cursor-pointer flex justify-between group" onClick={()=>handleSelectedChat(chat)} >
               <div>
                 <p className="truncate w-full" >
                   {chat.messages.length>0?chat.messages[0].content.slice(0,32) : chat.name}
@@ -47,7 +53,7 @@ function Sidebar({isMenuOpen, setIsMenuOpen}) {
       </div>
 
       {/* Community Images */}
-      <div className="flex items-center gap-2 p-3 mt-4 border border-gray-300 dark:border-white/15 rounded-md cursor-pointer hover:scale-103 transition-all" onClick={()=>{navigate("/community")}} >
+      <div className="flex items-center gap-2 p-3 mt-4 border border-gray-300 dark:border-white/15 rounded-md cursor-pointer hover:scale-103 transition-all" onClick={()=>{navigate("/community"); setIsMenuOpen(false)}} >
         <img src={assets.gallery_icon} className="w-4.5 not-dark:invert" />
         <div className="flex flex-col text-sm" >
           <p>Community Images</p>
@@ -55,7 +61,7 @@ function Sidebar({isMenuOpen, setIsMenuOpen}) {
       </div>
 
       {/* Credit Purrchase Option */}
-      <div className="flex items-center gap-2 p-3 mt-4 border border-gray-300 dark:border-white/15 rounded-md cursor-pointer hover:scale-103 transition-all" onClick={()=>{navigate("/credits")}} >
+      <div className="flex items-center gap-2 p-3 mt-4 border border-gray-300 dark:border-white/15 rounded-md cursor-pointer hover:scale-103 transition-all" onClick={()=>{navigate("/credits"); setIsMenuOpen(false)}} >
         <img src={assets.diamond_icon} className="w-4.5 dark:invert" />
         <div className="flex flex-col text-sm" >
           <p>Credits : {user?.credits}</p>
