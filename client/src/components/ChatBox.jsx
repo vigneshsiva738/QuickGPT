@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { assets } from "../assets/assets";
 import Message from "./Message";
@@ -14,6 +14,8 @@ function ChatBox() {
   const [mode, setMode] = useState("text");
   const [isPublished, setIsPublished] = useState(false);
 
+  const containerRef  = useRef(null)
+
   const onSubmit = async (e) => {
     e.preventDefault();
   }
@@ -24,10 +26,19 @@ function ChatBox() {
     }
   },[selectedChat])
 
+  useEffect(()=>{
+    if (containerRef.current){
+      containerRef.current.scrollTo({
+        top:containerRef.current.scrollHeight,
+        behavior: "smooth",
+      })
+    }
+  },[messages])
+
   return (<div className="flex-1 flex flex-col justify-between m-5 md:m-10 xl:mx-30 max-md:mt-14 2xl:pr-40" >
 
     {/* Chat Messages */}
-    <div className="flex-1 mb-5 overflow-y-scroll" >
+    <div className="flex-1 mb-5 overflow-y-scroll" ref={containerRef} >
       {messages.length === 0 && (
         <div className="h-full flex flex-col items-center justify-center gap-2 text-primary" >
           <img src={theme === "dark" ? assets.logo_full : assets.logo_full_dark} alt="QuickGPT" className="w-full max-w-56 sm:max-68" />
