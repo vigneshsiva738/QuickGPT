@@ -8,8 +8,8 @@ function Loading() {
   useEffect(()=>{
     const timeout = setTimeout(()=>{
       navigate("/")
-      return ()=>clearTimeout(timeout)
     },8000)
+    return ()=>clearTimeout(timeout)
   },[])
 
   return <div className="bg-gradient-to-b from-[#531B81] to-[#291848] backdrop-opacity-60 flex items-center justify-center h-screen w-screen text-white test-2xl">
