@@ -18,6 +18,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.send("Server is Live Now")
 });
+ 
 app.use("/api/user", userRouter);
 
 app.listen(PORT, ()=>{
