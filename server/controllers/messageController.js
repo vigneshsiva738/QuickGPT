@@ -8,6 +8,14 @@ import axios from "axios";
 export const textMessageController = async (req, res) => {
   try {
     const userId = req.user._id;
+
+    if (req.user.credits < 1) {
+      return res.json({
+        success: false,
+        message: "You don't have enough Credits to use this feature",
+      });
+    }
+
     const { chatId, prompt } = req.body;
 
     const chat = await Chat.findOne({ userId, _id: chatId });
@@ -51,8 +59,7 @@ export const textMessageController = async (req, res) => {
 export const imageMessageController = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { chatId, prompt, isPublished } = req.body;
-
+    
     if (req.user.credits < 2) {
       return res.json({
         success: false,
@@ -60,6 +67,7 @@ export const imageMessageController = async (req, res) => {
       });
     }
     
+    const { chatId, prompt, isPublished } = req.body;
     const chat = await Chat.findOne({ userId, _id: chatId });
 
     chat.messages.push({
