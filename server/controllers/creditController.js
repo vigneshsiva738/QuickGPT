@@ -1,3 +1,5 @@
+import Transaction from "../models/Transaction";
+
 const plans = [
   {
     _id: "basic",
@@ -40,11 +42,31 @@ const plans = [
 ];
 
 // API for Getting All Plans
+export const getPlans = async (req, res) => {
+  try {
+    res.json({ success: true, plans });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
 
-export const getPlans = async(req, res) => {
-    try {
-        res.json({success: true, plans})
-    } catch(error) {
-        res.json({success: false, message: error.message})
+// API for Purchasing a Plan
+export const purchasePlan = async (req, res) => {
+  try {
+    const { planId } = req.body;
+    const userId = req.user._id;
+    const plan = plans.find((plan) => planId===plan._id)
+
+    if(!plan) {
+      return res.json({success: false, message: "Invalid Plan"})
     }
+
+    const transaction = await Transaction.create({
+      userId: userId,
+      planId: plan._id,
+      amount: plan.price,
+      credits: plan.credits,
+      isPaid: false
+    });
+  } catch (error) {}
 };
