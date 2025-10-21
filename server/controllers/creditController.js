@@ -1,4 +1,5 @@
-import Transaction from "../models/Transaction";
+import Transaction from "../models/Transaction.js";
+import User from "../models/User.js";
 
 const plans = [
   {
@@ -55,7 +56,7 @@ export const purchasePlan = async (req, res) => {
   try {
     const { planId } = req.body;
     const userId = req.user._id;
-    const plan = plans.find((plan) => planId===plan._id)
+    const plan = plans.find((plan) => planId===plan._id);
 
     if(!plan) {
       return res.json({success: false, message: "Invalid Plan"})
@@ -65,8 +66,14 @@ export const purchasePlan = async (req, res) => {
       userId: userId,
       planId: plan._id,
       amount: plan.price,
-      credits: plan.credits,
-      isPaid: false
+      credits: plan.credits
     });
-  } catch (error) {}
+
+    await User.updateOne({ _id: userId }, { $inc: { credits: plan.credits } });
+
+    await Transaction.updateOne({_id: transaction._id, userId}, {$set: {isPaid: true}});
+
+  } catch (error) {
+    res.json({success: false, message: error.message});
+  }
 };
