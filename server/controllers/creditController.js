@@ -73,6 +73,8 @@ export const purchasePlan = async (req, res) => {
 
     await Transaction.updateOne({_id: transaction._id, userId}, {$set: {isPaid: true}});
 
+    res.json({success: true, message: "Plan Purchased Successfully"});
+
   } catch (error) {
     res.json({success: false, message: error.message});
   }
