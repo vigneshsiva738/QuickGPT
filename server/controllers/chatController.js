@@ -40,12 +40,14 @@ export const deleteChat = async(req, res) => {
 
         const userId = req.user._id
         const {chatId} = req.body
-
-        await Chat.deleteOne({_id: chatId, userId})
-        
-        res.json({success: true, message: "Chat Deleted"})
+        const chat = await Chat.findOne({_id: chatId, userId});
+        if(chat){
+            await Chat.deleteOne({_id: chatId, userId});
+            return res.json({success: true, message: "Chat Deleted"})
+        }
+        return res.status(404).json({success: false, message: "Chat Not Found"});
 
     } catch(error) {
-        res.json({success: true, message: error.mesaage})
+        res.status(404).json({success: false, message: error.message})
     }
 }

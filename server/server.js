@@ -26,9 +26,9 @@ app.use("/api/user", userRouter);
 
 app.use("/api/chat", chatRouter);
 
-app.use("api/message", messageRouter);
+app.use("/api/message", messageRouter);
 
-app.use("api/credit", creditRouter);
+app.use("/api/credit", creditRouter);
 
 app.listen(PORT, ()=>{
     console.log(`Server is Runnig on Port ${PORT}`)
